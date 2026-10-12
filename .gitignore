@@ -1,0 +1,9 @@
+.DS_Store
+.env
+.env.*
+__pycache__/
+*.py[cod]
+.idea/
+.vscode/
+private-photos/
+generated/

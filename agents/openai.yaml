@@ -1,0 +1,10 @@
+interface:
+  display_name: "Soya Portrait Illustrator"
+  short_description: "把一张照片生成可选写实手绘或豆豆眼动漫的完整素材包"
+  icon_small: "./assets/portrait-illustrator-small.svg"
+  icon_large: "./assets/portrait-illustrator.svg"
+  brand_color: "#E76F51"
+  default_prompt: "Use $soya-portrait-illustrator to create a complete asset pack from my photo, and ask me to choose realistic hand-drawn or bean-eye anime style."
+
+policy:
+  allow_implicit_invocation: true

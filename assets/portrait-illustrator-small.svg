@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Soya Portrait Illustrator icon</title>
+  <rect width="64" height="64" rx="16" fill="#FFF8EE"/>
+  <path d="M18 28c0-10 6-17 14-17s14 7 14 17v12c0 9-6 15-14 15s-14-6-14-15z" fill="#F2C6A8" stroke="#264653" stroke-width="2.6"/>
+  <path d="M18 29c1-12 6-19 15-19 8 0 13 6 14 16-6-1-12-4-16-8-3 5-7 8-13 11z" fill="#2F2A2A" stroke="#264653" stroke-width="2.6" stroke-linejoin="round"/>
+  <path d="M24 34h4M36 34h4" stroke="#264653" stroke-width="2.8" stroke-linecap="round"/>
+  <path d="M28 43c3 2 5 2 8 0" fill="none" stroke="#E76F51" stroke-width="2.8" stroke-linecap="round"/>
+  <path d="M48 43l7 7-9 4z" fill="#E9C46A" stroke="#264653" stroke-width="2" stroke-linejoin="round"/>
+</svg>

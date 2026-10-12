@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Soya Portrait Illustrator</title>
+  <desc id="desc">A split portrait combining realistic pencil texture and bean-eye anime styling.</desc>
+  <rect width="512" height="512" rx="112" fill="#FFF8EE"/>
+  <circle cx="256" cy="250" r="166" fill="#F7E6D4" stroke="#264653" stroke-width="14"/>
+  <path d="M166 228c5-91 42-144 95-144 68 0 102 61 95 156-43-9-80-31-105-65-22 30-49 48-85 53z" fill="#2F2A2A" stroke="#264653" stroke-width="14" stroke-linejoin="round"/>
+  <path d="M171 232v80c0 84 39 125 85 125V161c-26 40-51 61-85 71z" fill="#EAC0A2"/>
+  <path d="M341 232v80c0 84-39 125-85 125V161c26 40 51 61 85 71z" fill="#F4C9AA"/>
+  <path d="M171 232v80c0 84 39 125 85 125s85-41 85-125v-80" fill="none" stroke="#264653" stroke-width="14" stroke-linecap="round"/>
+  <path d="M195 273c13-8 28-8 41 0" fill="none" stroke="#264653" stroke-width="12" stroke-linecap="round"/>
+  <ellipse cx="218" cy="285" rx="7" ry="10" fill="#264653"/>
+  <path d="M278 268c18-12 39-10 52 4" fill="none" stroke="#264653" stroke-width="12" stroke-linecap="round"/>
+  <ellipse cx="303" cy="286" rx="13" ry="16" fill="#264653"/>
+  <circle cx="307" cy="281" r="4" fill="#FFF8EE"/>
+  <path d="M255 288l-11 38 19 3" fill="none" stroke="#9A674B" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M219 355c20 21 49 22 72 1" fill="none" stroke="#E76F51" stroke-width="11" stroke-linecap="round"/>
+  <path d="M136 118l-36 225" stroke="#6F6258" stroke-width="7" stroke-linecap="round" opacity=".35"/>
+  <path d="M114 135l-29 183M133 164L91 367M376 103l37 35M386 136l48 45" stroke="#6F6258" stroke-width="5" stroke-linecap="round" opacity=".24"/>
+  <path d="M378 362l70 70-88 28z" fill="#E9C46A" stroke="#264653" stroke-width="12" stroke-linejoin="round"/>
+  <path d="M378 362l-18 98 35-11 53-17z" fill="#F4A261" opacity=".9"/>
+  <path d="M378 362l-18 98 88-28z" fill="none" stroke="#264653" stroke-width="12" stroke-linejoin="round"/>
+</svg>

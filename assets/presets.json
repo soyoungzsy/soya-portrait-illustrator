@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0",
+  "project_version": "0.3.0",
+  "presets": [
+    {
+      "id": "avatar-square-1024",
+      "category": "avatars",
+      "width": 1024,
+      "height": 1024,
+      "source": "square",
+      "operation": "cover"
+    },
+    {
+      "id": "avatar-circle-safe-1024",
+      "category": "avatars",
+      "width": 1024,
+      "height": 1024,
+      "source": "square",
+      "operation": "circle_safe"
+    },
+    {
+      "id": "avatar-small-512",
+      "category": "avatars",
+      "width": 512,
+      "height": 512,
+      "source": "square",
+      "operation": "cover"
+    },
+    {
+      "id": "phone-wallpaper-ios-large",
+      "category": "wallpapers",
+      "width": 1290,
+      "height": 2796,
+      "source": "vertical",
+      "operation": "cover"
+    },
+    {
+      "id": "phone-wallpaper-android-qhd",
+      "category": "wallpapers",
+      "width": 1440,
+      "height": 3120,
+      "source": "vertical",
+      "operation": "cover"
+    },
+    {
+      "id": "phone-wallpaper-universal",
+      "category": "wallpapers",
+      "width": 1080,
+      "height": 2400,
+      "source": "vertical",
+      "operation": "cover"
+    },
+    {
+      "id": "moments-square",
+      "category": "social",
+      "width": 1080,
+      "height": 1080,
+      "source": "square",
+      "operation": "cover"
+    },
+    {
+      "id": "social-portrait",
+      "category": "social",
+      "width": 1080,
+      "height": 1440,
+      "source": "vertical",
+      "operation": "cover"
+    },
+    {
+      "id": "xiaohongshu-portrait",
+      "category": "social",
+      "width": 1242,
+      "height": 1660,
+      "source": "vertical",
+      "operation": "cover"
+    },
+    {
+      "id": "social-story",
+      "category": "social",
+      "width": 1080,
+      "height": 1920,
+      "source": "vertical",
+      "operation": "cover"
+    },
+    {
+      "id": "ppt-wide",
+      "category": "presentations",
+      "width": 1920,
+      "height": 1080,
+      "source": "wide",
+      "operation": "cover"
+    },
+    {
+      "id": "ppt-standard",
+      "category": "presentations",
+      "width": 1600,
+      "height": 1200,
+      "source": "cutout",
+      "operation": "compose_right"
+    },
+    {
+      "id": "character-cutout",
+      "category": "reusable",
+      "width": 2048,
+      "height": 2048,
+      "source": "cutout",
+      "operation": "contain_transparent"
+    },
+    {
+      "id": "character-sticker",
+      "category": "reusable",
+      "width": 1024,
+      "height": 1024,
+      "source": "cutout",
+      "operation": "sticker"
+    },
+    {
+      "id": "layout-person-left",
+      "category": "layouts",
+      "width": 1920,
+      "height": 1080,
+      "source": "cutout",
+      "operation": "compose_left"
+    },
+    {
+      "id": "layout-person-right",
+      "category": "layouts",
+      "width": 1920,
+      "height": 1080,
+      "source": "cutout",
+      "operation": "compose_right"
+    },
+    {
+      "id": "portrait-card-4x5",
+      "category": "layouts",
+      "width": 1600,
+      "height": 2000,
+      "source": "vertical",
+      "operation": "cover"
+    }
+  ]
+}
