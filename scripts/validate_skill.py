@@ -36,8 +36,18 @@ REQUIRED_FILES = (
     "scripts/export_asset_pack.py",
     "tests/test_export_asset_pack.py",
     "tests/test_skill_contract.py",
-    ".github/workflows/validate.yml",
+    "references/github-actions.yml",
     "requirements.txt",
+    "templates/share-brief.json",
+    "scripts/ip_library.py",
+    "scripts/create_synthetic_demo.py",
+    "scripts/package_skill.py",
+    "scripts/release_audit.py",
+    "references/personal-library.md",
+    "references/competition-checklist.md",
+    "tests/test_ip_library.py",
+    "tests/test_package.py",
+    "examples/synthetic-showcase.svg",
 )
 
 TEXT_SUFFIXES = {".md", ".yaml", ".yml", ".py", ".txt"}

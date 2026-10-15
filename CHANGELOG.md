@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.0 — 2026-10-15
+
+- Add immutable confirmed identity versions, saved palettes, parent lineage and master integrity checks.
+- Reuse an explicit version for avatar, editable-text cover and transparent PPT illustration.
+- Preserve unchanged master bytes across narrow revisions; keep old deliveries.
+- Add offline use previews, alpha/text/contrast checks and clear failure paths.
+- Add short startup instruction, host capability precheck, synthetic demo, deterministic Skill ZIP and release scan.
+- Provide an optional CI template and fix the stale validator requirement for a missing workflow; activation needs GitHub workflow permission.
+- Retain the existing four-master / 17-size exporter and two styles. No new model or real-person validation claims.
+
 ## 0.3.0 — 2026-10-09
 
 - Separate the public complete-asset-pack default from personalized local Skill defaults.

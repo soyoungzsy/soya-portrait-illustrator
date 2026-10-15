@@ -29,3 +29,7 @@ The export manifest records only generic source roles such as `square` and `cuto
 ## Deletion
 
 This repository does not hold user photos, so it cannot delete data retained by a host application or model provider. Use the deletion and account controls offered by the service that processed the image.
+
+## Local library in v0.4.0
+
+Confirmed masters, identity aliases, palette versions and delivery briefs are private local data. Keep them outside the public Skill checkout. Original photos are not imported by the helper. Re-encoding removes image metadata, but the likeness remains personal data. No automatic upload, sync, encryption or backup is included. Never infer publication permission from permission to process a photo. The public demo uses only an original geometric fixture with no real identity.

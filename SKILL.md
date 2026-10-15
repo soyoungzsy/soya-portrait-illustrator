@@ -1,74 +1,43 @@
 ---
 name: soya-portrait-illustrator
-description: Turn an uploaded human photo into a reusable illustration asset pack in either realistic hand-drawn or bean-eye anime style, including avatars, phone wallpapers, social-post images, presentation layouts, transparent cutouts, and future-ready composition variants. Use for photo-to-illustration and multi-size portrait asset requests; do not use for text-only character invention or information graphics.
+description: Build a reusable personal illustration library from authorized portrait masters. Prepare a sharing kit with avatar, editable title cover and transparent PPT illustration, save confirmed identity versions and palettes, and reuse them for later themes. Also supports the legacy four-master asset pack. Use for personal IP illustration workflows, not information graphics or automatic publishing.
 ---
 
-# Soya Portrait Illustrator
+# Soya Portrait Illustrator · Personal IP Library
 
-Turn one authorized reference photo into a coherent family of illustrations that still looks like the same person across formats. Treat likeness as the invariant and format as the variable.
+用户上传照片后，只需说「按这张照片建立我的个人IP素材库」。主动检查宿主能力、补齐必要用途信息、确认人物并组织导出；不要让用户另外拼接长提示词或手动运行脚本。
 
-## Choose the deliverable
+Local Python helpers manage masters, versions, layout and checks. They do not generate images or guarantee likeness.
 
-- If the user asks for “一套素材”“全套”“多尺寸”“头像 + 屏保 + 社交图”“asset pack”, create the **default asset pack** below.
-- If the user asks for one specific image, create only that image; do not force the full pack.
-- In this public GitHub edition, if the request is ambiguous but clearly about turning a photo into an illustration, default to the complete realistic hand-drawn asset pack. Create only one image when the user explicitly narrows the request to one image or one format.
+## Choose the scope
 
-## Choose a style separately from quantity
+- A sharing session / personal IP library: avatar + sharing cover + transparent PPT illustration. Require only a square master and a transparent cutout.
+- An explicit complete multi-size pack: use the existing four-master / 17-preset exporter. Read [asset-pack-presets](references/asset-pack-presets.md) and [composition rules](references/composition-variants.md).
+- One requested image: deliver that image without expanding the scope.
 
-- **Realistic hand-drawn** applies when the user says “写实”“写实手绘”“彩铅肖像”“像本人”. Read [references/realistic-handdrawn.md](references/realistic-handdrawn.md). For full-body outputs, keep the face unchanged while using a smaller head and approximately 4:6 upper-to-lower-body balance.
-- **Bean-eye anime** applies when the user says “动漫”“豆豆眼”“漫画人物”“anime”. Read [references/anime-bean-eye.md](references/anime-bean-eye.md). This means dot/bean eyes, minimal nose and mouth, black hand-drawn outlines, colored-pencil fill, and flat 2D comic treatment—not large glossy anime eyes or semi-realistic chibi.
-- If style is not specified, ask one concise question: “选择写实手绘，还是豆豆眼动漫风格？” Do not infer style from the requested quantity or format.
-- If the user explicitly asks for both styles, create two sibling packs with the same file structure. Otherwise, keep the pack in one visual system.
+## First sharing session
 
-## Default asset pack
+1. **Check host capabilities first.** Verify the available tool supports reference-image editing, can access the uploaded photo, can return a real alpha cutout, and can save outputs accessible to local Python. Check Python 3.9+ (3.10+ recommended) and Pillow with `python3 -c 'import PIL; print(PIL.__version__)'`. If capability is missing, explain the exact gap and prepare a brief; do not claim the full workflow ran. Ask before installing a missing dependency. The Skill bundles no model, API credentials, background removal service or generation entitlement. Before a newly paid call or photo upload, explain the data, provider and expected cost and obtain any missing authorization.
+2. Obtain the authorized photo, intended use, topic/title and one point to express. Ask only for missing information. A normal, unretouched photo can be the reference: inspect visible face, hair, eyewear, outfit silhouette, layering, colors and accessories. Mirror reflections and dim light can obscure details; explain uncertainty rather than inventing them. Photos and local library files stay outside the public Skill source. Read [privacy and consent](references/privacy-and-consent.md) before processing a real person.
+3. Ask realistic hand-drawn or bean-eye anime only if the choice is missing. Read the matching [realistic](references/realistic-handdrawn.md) or [anime](references/anime-bean-eye.md) reference. Inspect the photo before editing. Do not infer sensitive traits or hidden body details.
+4. Generate text-free `square.png` and `cutout.png` through the available image-editing tool, using the original photo as reference in each new master call. Read [pose-library](references/pose-library.md) when changing actions. Preserve recognizable face, hairstyle, eyewear, clothing and accessories; no silent slimming, age shifts, skin-tone changes or sexualization. Any “80%” wording in style references is a qualitative preference, never a measured similarity guarantee.
+5. Show the masters and obtain the user's confirmation before saving them as confirmed. Read [quality-check](references/quality-check.md). Confirm background, accent and text colors; use the default palette when the user has no preference. `--confirmed` records the agent's assertion of actual user approval; it does not obtain it.
+6. Save and compose using [personal-library](references/personal-library.md). The agent runs these helpers; the user need not copy CLI commands. Copy `templates/share-brief.json` to a local work folder and fill the title and point. Use an alias rather than a legal name. Record only approved masters, never the original photo. New masters are re-encoded to remove metadata; unchanged stored masters are copied byte for byte.
+7. Open `preview.html`: avatar at small circular sizes, cover with safe-area guide, cutout on light/dark/checkerboard backgrounds. Inspect title spelling, font rendering, portrait crop, stray generated lettering and alpha edges. Mechanical checks cannot assess likeness, read image lettering or certify background removal. Explain failed checks and correct their source before delivery.
+8. Deliver `avatar.png`, editable `cover.svg` plus text-free `cover-background.png`, and `ppt-cutout.png`, alongside the preview and `kit-manifest.json`. The SVG contains editable text elements; it is not a PowerPoint text box. No PPTX is created. Export a raster cover only with an available renderer and report the format actually produced.
 
-Create four approved masters before exporting sizes:
+## Reuse and local changes
 
-1. `master-square.png` — 1:1 head-and-shoulders or half-body portrait; face and hair inside the central circle-safe area.
-2. `master-vertical.png` — tall scene for wallpapers and vertical social posts; leave quiet space around the top clock area and avoid putting the face against the screen edge.
-3. `master-wide.png` — 16:9 scene for presentations; preserve at least 40% calm negative space for future copy.
-4. `master-cutout.png` — transparent-background bust or figure for reusable layouts. Create a full body only when the reference shows enough of the body or the user explicitly accepts inferred clothing and anatomy.
+- Ask which library/version only when it cannot be inferred. Reuse the explicit confirmed version for a new title/point; `build` does no generation and never modifies the library.
+- Text-only change: edit the local brief and build into a new output directory. Avatar and cutout remain byte-identical for the same source version and environment.
+- Palette-only change: `record --base v0001 --accent '#29A398' --confirmed` creates a child version; both masters retain their bytes. Use `--background` and `--text` as needed; low text/background contrast blocks a build.
+- Pose, expression or clothing change: edit only the affected master through the image-editing tool. Provide the original photo and approved master as context where supported. Explicitly identify the allowed region and protected features, then inspect the result. Regional edits depend on the provider and may drift. Do not promise pixel preservation inside a regenerated image. After confirmation, record the changed role with `--base`; other master files are copied unchanged.
+- Identity/style change: use a separate library. Versions are not overwritten. Builds verify master hashes and reject tampering, unknown schemas, invalid alpha and text overflow.
 
-Read [references/asset-pack-presets.md](references/asset-pack-presets.md) for the exact exports and [references/composition-variants.md](references/composition-variants.md) for safe-area behavior.
+## Legacy full pack
 
-Read [references/pose-library.md](references/pose-library.md) before generating a full-body or scene master. If the user gives no action, use the format default from that file; never copy an awkward pose from a photo or style reference by default.
+The existing four-master and 17-size capability predates this library workflow. Follow [asset-pack-presets](references/asset-pack-presets.md) for square, vertical, wide and transparent masters. Keep at least 40% calm space in the wide scene, clock clearance in the vertical scene and circle clearance in the avatar. Confirm all four before running `scripts/export_asset_pack.py`; the exporter does not confirm likeness.
 
-## Workflow
+## Finish honestly
 
-1. **Require an accessible reference photo.** If none is available, ask the user to upload one. If several people appear and the intended subject is unclear, ask which person to draw.
-2. **Inspect before editing.** Note subject count, crop, pose, expression, face proportions, hairstyle, visible clothing, defining accessories, lighting, and background. Do not infer sensitive traits.
-3. **Set identity priorities.** Preserve, in order: subject count; roughly 80% recognizable identity; hairline and hairstyle; eyewear or defining accessories; clothing silhouette and color; requested action; crop; background. Permit light facial beautification instead of exact photographic reproduction.
-4. **Generate masters through reference-image editing.** Include the original photo in every master-generation call. Do not create the later masters only from an earlier generated image; repeated generation from generation compounds identity drift.
-5. **Use one style system.** Keep linework, palette, paper or brush texture, facial treatment, and clothing interpretation consistent across all masters.
-6. **Approve the masters.** Read [references/quality-check.md](references/quality-check.md). If identity fails, correct the master before creating derivatives.
-7. **Export exact sizes.** When local execution is available, run:
-
-   ```bash
-   python3 <skill-directory>/scripts/export_asset_pack.py \
-     --square /absolute/path/to/master-square.png \
-     --vertical /absolute/path/to/master-vertical.png \
-     --wide /absolute/path/to/master-wide.png \
-     --cutout /absolute/path/to/master-cutout.png \
-     --out /absolute/path/to/portrait-asset-pack \
-     --style realistic
-   ```
-
-   Resolve `<skill-directory>` from the loaded Skill path. If Pillow is missing, report the exact install command from `<skill-directory>/requirements.txt` and ask before installing it. The exporter reads its own `assets/presets.json`, removes low-alpha cutout halos by default, creates exact pixel sizes, adds left/right reusable layouts, and writes a contact sheet plus manifest.
-8. **Validate derivatives.** Check that no crop cuts the head, chin, hands, or defining accessory; the face is clear at avatar size; the clock area is quiet on wallpapers; and PPT/social variants retain intended negative space.
-9. **Deliver the folder and contact sheet.** Keep source photos outside the public repository and preserve all original files.
-
-If exact local exporting is unavailable, generate the requested aspect ratios directly, state that pixel-perfect export was not run, and do not claim exact dimensions.
-
-## Shared constraints
-
-- Favor recognizable identity over fashionable stylization.
-- Never silently beautify, slim, age-shift, change skin tone, redesign facial structure, replace hair, or change gender presentation.
-- Keep the number of people, limbs, visible objects, and major accessories stable.
-- Do not place decorative text, signatures, logos, or watermarks into reusable masters.
-- Keep hands separated in the default pose; avoid clasped hands, hands behind the back, pigeon-toed feet, or stiff symmetrical standing.
-- Do not copy a named living artist’s exact style. Translate style into general visual traits.
-- Read [references/privacy-and-consent.md](references/privacy-and-consent.md) before using a photo or generated likeness in any public artifact.
-
-## Output note
-
-Report the base style, the four masters created, the number of exports, the output folder, and any intentionally omitted asset. Keep explanations concise; the contact sheet is the primary overview.
+Report identity version, style/palette, delivered paths, machine checks, visual review performed and remaining issues. State whether a generation service was actually exercised. Never publish a real photo, likeness, private title or library without specific publication permission. This Skill does not register contests, submit entries, publish, or send messages automatically. See [competition checklist](references/competition-checklist.md) for a reviewable entry.

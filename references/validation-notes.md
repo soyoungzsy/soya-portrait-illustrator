@@ -1,5 +1,21 @@
 # Validation notes
 
+## v0.4.0 · local automated validation · 2026-10-15/16 UTC
+
+Environment: macOS, Python 3.9.6, Pillow 11.3.0. To reproduce with the tested dependency, install `Pillow==11.3.0`; the existing requirements range remains Pillow 10–11.
+
+- 13 unittest cases passed: legacy 17 exports, path protection, library reuse and byte stability, palette lineage, single-master revision, invalid alpha, missing confirmation, text overflow, master tampering, metadata removal, source-directory guard, low contrast and no-overwrite behavior.
+- Package regression builds two ZIPs with identical SHA-256, extracts the Skill into a temporary install directory, validates it and runs the complete synthetic offline demo from that extracted package.
+- Repository validator and Skill Creator frontmatter validator passed. The baseline required an absent CI file. An optional template now supplies validation and packaging, and the validator checks the template. Online CI is not activated because the existing GitHub OAuth login lacks workflow scope; GitHub explicitly rejected a workflow-file push.
+- Heuristic scan covers tracked/unignored working files and every reachable Git commit/blob; manual diff review is still required. It does not prove absence of all private data or establish copyright consent.
+- Synthetic demo: original Pillow-drawn geometric character, fictional Chinese title and point, one version used for first and next-theme deliveries. No model call, charge, photo upload or real identity. Avatar, text-free cover raster and alpha cutout were inspected as local images.
+- Full browser preview and final font rendering were **not visually verified**: the browser policy rejected local `file:` navigation. The HTML/SVG files remain available for manual inspection. XML tests verify editable text and escaping; they do not certify rendering.
+- No new real-person generation, likeness acceptance, installed-host photo workflow or contest submission was performed. The author case and continuous recording remain pending.
+
+## Historical v0.3.0 maintainer record
+
+The following record was already in the repository at the baseline. It was not independently reproduced for v0.4.0 and must not be presented as new acceptance evidence.
+
 Last validated: 2026-10-10.
 
 ## Private visual validation

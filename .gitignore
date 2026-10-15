@@ -7,3 +7,10 @@ __pycache__/
 .vscode/
 private-photos/
 generated/
+
+.venv/
+venv/
+dist/
+private-library/
+personal-library/
+.ip-kit-*/
