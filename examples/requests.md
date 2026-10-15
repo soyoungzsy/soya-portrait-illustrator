@@ -1,3 +1,25 @@
+# Personal IP library · quick start
+
+Upload an authorized photo and say:
+
+> 按这张照片建立我的个人IP素材库。
+
+The Skill checks host image-editing capabilities and asks only for missing use/topic/point and style choices, then confirms the masters. No extra long prompt is required.
+
+Next time:
+
+> 沿用上次确认的人物，主题改成「让好奇心多走一步」，观点是「先验证一个小假设」。
+
+Narrow edit:
+
+> 只改分享封面的标题，人物和配色保持不变。
+
+Or:
+
+> 只调整头像表情，保留发型、衣服和已确认的透明插画。先给我看母版。
+
+These are illustrative requests, not test evidence. Below are legacy full-pack examples.
+
 # Example requests
 
 These examples show how users can invoke the skill after attaching a photo.

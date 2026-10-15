@@ -1,99 +1,54 @@
-# Soya Portrait Illustrator
+# Soya Portrait Illustrator · Personal IP Library
 
-[![Version](https://img.shields.io/badge/version-0.3.0-E76F51)](SKILL.md)
-[![License: MIT](https://img.shields.io/badge/license-MIT-264653)](LICENSE)
+Version 0.4.0 · [中文](README.md) · [MIT](LICENSE)
 
-**Upload one photo, choose realistic hand-drawn or bean-eye anime style, and receive a reusable illustration system: avatars, phone wallpapers, social-post images, presentation layouts, and transparent character assets that still look like the same person.**
+Upload an authorized photo and say: **“Build my personal IP illustration library from this photo.”** The Skill checks the host's capabilities, asks only for missing purpose/topic/point information, obtains master approval, and delivers an avatar, editable-text sharing cover and transparent PPT illustration. Save the confirmed identity and palette, then reuse them for later topics.
 
-Soya Portrait Illustrator is an open-source Agent Skill for reference-image editing. Instead of regenerating the person for every format, it creates four likeness-approved masters and exports a consistent multi-size pack from them.
+## Requirements and installation
 
-This public edition defaults to the complete asset pack when the requested quantity is ambiguous. A personalized local copy may use different defaults and is not part of this repository.
+Install the complete `soya-portrait-illustrator/` folder into your host's Skills directory, with `SKILL.md` directly inside it; Codex commonly uses `~/.codex/skills/`. Reload Skills. Explicit invocation: `Use $soya-portrait-illustrator to build my personal IP illustration library from this photo.` No extra long prompt is required.
 
-## Two styles
+The host must inspect uploaded images, perform reference-image editing and save accessible output files. True transparent cutouts require alpha-capable output. This Skill includes no model, credits, API keys or background removal service. Newly paid calls and photo uploads require an agreed provider, data scope and cost. Short startup does not imply zero configuration in every environment.
 
-- **Realistic hand-drawn:** graphite or colored-pencil linework, restrained watercolor, paper texture, and an identity-preserving but aesthetically balanced smaller-head, roughly 4:6 upper-to-lower-body proportion.
-- **Bean-eye anime:** small black bean eyes, minimal nose and mouth, black hand-drawn outlines, colored-pencil fill, and a cute flat two-dimensional silhouette without emphasized bust, waist, or hip curves.
+Local helpers need Python (3.10+ recommended; tested with 3.9.6) and Pillow 10–11. A browser and appropriate system fonts are needed for previews. SVG text remains editable in SVG editors, but slide apps may flatten it. No PPTX or native PowerPoint text boxes are created.
 
-Style and quantity are independent choices. When style is missing, the Skill asks the user to choose realistic hand-drawn or bean-eye anime. Both styles are produced only when explicitly requested.
-
-The default identity target is approximately 80% recognizable with controlled light beautification, not photo-exact replication. When action is unspecified, the Skill selects a format-appropriate pose from its reusable pose library.
-
-## Four masters
-
-1. A square portrait for avatars and cards.
-2. A tall composition with quiet clock and system-UI zones for wallpapers and vertical social posts.
-3. A 16:9 composition with at least 40% negative space for presentation copy.
-4. A transparent bust or figure for future layouts, stickers, posters, websites, and documents.
-
-The skill never silently expands a headshot into an invented full body. A full-body cutout requires a sufficiently complete reference or explicit permission to infer missing clothing and anatomy.
-
-## Default exports
-
-The pack includes:
-
-- 1024 and 512 square avatars, plus a circle-safe avatar.
-- 1290×2796 iPhone-large, 1440×3120 Android-QHD, and 1080×2400 universal phone wallpapers.
-- 1080×1080, 1080×1440, 1242×1660, and 1080×1920 social formats.
-- 1920×1080 widescreen and 1600×1200 standard presentation images.
-- A 2048 transparent character cutout, 1024 sticker, left-copy layout, right-copy layout, and 4:5 portrait card.
-- A contact sheet and privacy-safe manifest.
-
-These are durable project presets, not promises of permanent platform specifications. The system preserves high-resolution masters and ratio-aware safe areas so future sizes can be added without regenerating the person.
-
-## Use cases
-
-- **Avatar:** the circle-safe version protects hair, glasses, ears, and chin from platform cropping.
-- **Phone wallpaper:** the subject stays clear of the clock, camera cutout, status area, and bottom controls.
-- **WeChat Moments:** square and 3:4 variants support single images, grids, and portrait-led posts.
-- **Xiaohongshu:** the high-resolution 3:4 version leaves room for a later headline while preserving a clean text-free master.
-- **PowerPoint:** 16:9 and 4:3 sizes plus left/right character layouts support covers, profiles, quotes, sections, and closing slides.
-- **Future formats:** the transparent cutout, sticker, and masters can be recomposed for websites, posters, long images, documents, and new platforms.
-
-## Install
-
-Copy the repository folder to:
-
-```text
-~/.codex/skills/soya-portrait-illustrator
-```
-
-`SKILL.md` must sit directly inside that folder. Restart or refresh Codex.
-
-## Use
-
-Attach an authorized photo and ask:
-
-```text
-Use $soya-portrait-illustrator to create a complete realistic hand-drawn asset pack from this photo. Preserve the face, expression, hairstyle, glasses, clothing colors, and pose. Export the avatar, phone wallpaper, social, presentation, cutout, sticker, and reusable layout presets.
-```
-
-## Exact-size export
+## Reproducible offline demo
 
 ```bash
+python3 -m venv ../soya-ip-venv
+source ../soya-ip-venv/bin/activate
 python3 -m pip install -r requirements.txt
-python3 scripts/export_asset_pack.py \
-  --square master-square.png \
-  --vertical master-vertical.png \
-  --wide master-wide.png \
-  --cutout master-cutout.png \
-  --out portrait-asset-pack \
-  --style realistic
+python3 scripts/create_synthetic_demo.py --out ../synthetic-demo
 ```
 
-The exporter reads `assets/presets.json`, creates every default size, and writes a contact sheet plus manifest.
+Open `../synthetic-demo/first-share/preview.html`. This original geometric fixture and the fictional titles exercise first delivery and next-theme reuse without any model calls or real identity. They are not evidence of photo generation quality.
 
-## Privacy
+![Actual offline outputs from the synthetic fixture](examples/synthetic-showcase.svg)
 
-Use only photos you own or are authorized to edit. Never submit identifiable user photos, generated likenesses, private image URLs, or personal prompt logs to issues or pull requests. Processing follows the terms of the image provider selected by the host environment; this repository does not claim local-only processing.
+## Workflow and outputs
 
-## Validate
+Confirm a square master and a true alpha cutout. The agent runs `scripts/ip_library.py record` to save an immutable confirmed version, then `build` with an explicit version and JSON brief. See [commands, manifests and failures](references/personal-library.md).
+
+- `avatar.png`: 1024², previewed at 48/96/192 pixels with circle cropping.
+- `cover.svg`: 1920×1080, editable SVG title and point; `cover-background.png` is text-free.
+- `ppt-cutout.png`: 1600² RGBA, previewed on light/dark/checkerboard surfaces.
+- `preview.html`, `brief.json`, `kit-manifest.json`: local preview, text data, identity version, hashes, palette, dimensions and check results.
+
+Text-only changes reuse the same masters. Palette and master edits create child versions. Unchanged master files retain their bytes. Regional generation may drift and still needs human review. Libraries and deliveries must stay outside the Skill source directory; original photos are not imported. Stored portraits and topic text remain private personal data even after metadata is removed.
+
+New in 0.4.0: persistent identity/palette versions, reuse, narrow revisions, sharing kit, editable text, preview and failure handling. The four masters, 17 exports, two styles and approval rules already existed in 0.3.0; the legacy exporter remains available.
+
+## Verification and packaging
 
 ```bash
 python3 scripts/validate_skill.py .
+python3 -m unittest discover -s tests -v
+python3 scripts/release_audit.py --history
+python3 scripts/package_skill.py --out ../soya-portrait-illustrator-0.4.0.zip
 ```
 
-Structural validation does not replace visual likeness testing with authorized reference photos.
+Packaging uses an explicit source allowlist and deterministic ZIP metadata. It never includes local photos, identity libraries, environments or `.git`. The release scan is heuristic and requires manual diff and provenance review. An [optional GitHub Actions template](references/github-actions.yml) validates and builds the ZIP. It is not enabled: the current GitHub OAuth login lacks `workflow` scope. An authorized maintainer may later copy it to `.github/workflows/validate.yml`. Local validation and packaging work without that scope.
 
-## License
+No new real-person generation or likeness acceptance was performed for this upgrade. No OCR, face recognition, automatic publication, cloud synchronization, encryption or backup is included. One fixed cover layout is supported; text capacity and contrast checks cannot verify actual fonts or identity. See [validation notes](references/validation-notes.md), [privacy](PRIVACY.md) and the [entry preparation checklist](references/competition-checklist.md). The author's own case awaits her approved evidence; no external testimonials or time savings are claimed.
 
-[MIT](LICENSE) © 2026 Soya
+Only third-party Python dependency: official [Pillow](https://github.com/python-pillow/Pillow), distributed under [MIT-CMU](https://github.com/python-pillow/Pillow/blob/11.3.0/LICENSE). No fonts, models or third-party character assets are bundled. The original geometric demo is distributed under the project's MIT license.
