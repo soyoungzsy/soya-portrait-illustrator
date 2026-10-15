@@ -53,7 +53,11 @@ class ExportAssetPackTests(unittest.TestCase):
             temp = Path(temp_value)
             source, command = self.isolated_exporter(temp)
             before = {p.relative_to(source): p.read_bytes() for p in source.rglob("*") if p.is_file()}
-            for output in (source, source / "generated", source / "scripts/../assets/exports"):
+            outputs = [source, source / "generated", source / "scripts/../assets/exports"]
+            case_alias = source.with_name(source.name.upper())
+            if case_alias.exists() and case_alias.samefile(source):
+                outputs.append(case_alias / "generated")
+            for output in outputs:
                 with self.subTest(output=output):
                     result = subprocess.run([*command, str(output)], capture_output=True, text=True)
                     self.assertEqual(result.returncode, 2, result.stderr)

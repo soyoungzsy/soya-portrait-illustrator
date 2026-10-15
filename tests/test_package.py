@@ -1,4 +1,5 @@
 import hashlib
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -12,6 +13,23 @@ ROOT = Path(__file__).resolve().parents[1]
 class PackageTests(unittest.TestCase):
     def invoke(self, path):
         return subprocess.run([sys.executable, str(ROOT / "scripts/package_skill.py"), "--out", str(path)], capture_output=True, text=True)
+
+    def test_package_source_paths_and_filesystem_aliases_rejected(self):
+        with tempfile.TemporaryDirectory() as temp:
+            source = Path(temp) / "skill-source"
+            (source / "scripts").mkdir(parents=True)
+            script = source / "scripts/package_skill.py"
+            shutil.copyfile(ROOT / "scripts/package_skill.py", script)
+            outputs = [source / "skill.zip", source / "scripts/../skill.zip"]
+            case_alias = source.with_name(source.name.upper())
+            if case_alias.exists() and case_alias.samefile(source):
+                outputs.append(case_alias / "skill.zip")
+            for output in outputs:
+                with self.subTest(output=output):
+                    result = subprocess.run([sys.executable, str(script), "--out", str(output)], capture_output=True, text=True)
+                    self.assertEqual(result.returncode, 2, result.stderr)
+                    self.assertIn("outside", result.stderr)
+                    self.assertFalse(output.exists())
 
     def test_existing_checksum_is_unchanged_and_no_zip_created(self):
         with tempfile.TemporaryDirectory() as temp:

@@ -29,7 +29,7 @@ def package(out):
     out = Path(os.path.abspath(out))
     resolved = out.resolve()
     for candidate in (out, *out.parents, resolved, *resolved.parents):
-        if candidate.resolve() == ROOT:
+        if candidate.resolve() == ROOT or (candidate.exists() and candidate.samefile(ROOT)):
             raise ValueError("write release packages outside the source directory")
     sidecar = out.with_suffix(out.suffix + ".sha256")
     for path in (out, sidecar):

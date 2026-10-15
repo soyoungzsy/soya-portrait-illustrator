@@ -37,7 +37,7 @@ def export_directory(path: Path) -> Path:
     # Resolve ancestors too: an in-source link may point outside, and system
     # aliases such as /var -> /private/var make lexical prefix checks insufficient.
     for candidate in (absolute, *absolute.parents, resolved, *resolved.parents):
-        if candidate.resolve() == SOURCE_ROOT:
+        if candidate.resolve() == SOURCE_ROOT or (candidate.exists() and candidate.samefile(SOURCE_ROOT)):
             raise ValueError("export directory must be outside the Skill source repository")
     if path.is_symlink():
         raise ValueError("export directory must not be a symlink")
