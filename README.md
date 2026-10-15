@@ -1,6 +1,6 @@
 # Soya Portrait Illustrator · 个人 IP 素材库
 
-[![Version](https://img.shields.io/badge/version-0.4.0-E76F51)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.4.1-E76F51)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-264653)](LICENSE)
 
 **一个 Skill，一句启动指令。** 上传一张有权使用的普通照片，说：
@@ -27,11 +27,15 @@ Skill 会检查环境，补问用途、分享主题和观点，确认人物母�
 
 ## 安装和启动
 
-下载可安装 ZIP，解压后将整个 `soya-portrait-illustrator` 文件夹放入宿主的 Skills 目录，确保目录下直接看到 `SKILL.md`。Codex 常用位置：
+下载可安装 ZIP，解压后将整个 `soya-portrait-illustrator` 文件夹放入宿主的 Skills 目录，确保目录下直接看到 `SKILL.md`。按[当前官方 Codex 文档](https://learn.chatgpt.com/docs/build-skills)，用户级安装入口为：
 
 ```text
-~/.codex/skills/soya-portrait-illustrator/SKILL.md
+~/.agents/skills/soya-portrait-illustrator/SKILL.md
 ```
+
+仅供某个项目使用时，可放在该项目的 `.agents/skills/soya-portrait-illustrator/`。本维护环境仍能加载 `~/.codex/skills/` 中的既有技能；该目录按旧版或定制宿主的兼容入口处理，不能据此推断所有新版都扫描它。依目标宿主实际发现结果确认，避免同时安装同名双副本。
+
+本版验收范围为源码测试、ZIP 解包与离线脚本执行；尚未实际安装到用户全局目录，也未验证目标宿主的技能发现、对话调用或真实照片生成。
 
 重新加载 Skills 后上传照片，说上面的启动句即可；也可明确调用：
 
@@ -81,6 +85,12 @@ python3 scripts/ip_library.py build \
 
 文字改动只改 brief；配色改动建立子版本；人物修改只替换已重新确认的相应母版，未改动的母版按字节保留。生成模型的区域编辑仍可能改变其他细节，需要人工检查。命令、manifest 协议和失败处理见 [本地素材库说明](references/personal-library.md)。
 
+## v0.4.1 边界补丁
+
+旧版 17 尺寸导出器现在拒绝向 Skill 源码仓库及内部路径输出；解析别名和符号链接，并在写入前统一检查 PNG、联系表与 manifest。即使使用 `--overwrite`，已有输出链接也会被拒绝。安装包和同名 `.sha256` 都拒绝覆盖或跟随链接，并以独占方式创建。
+
+个人库目前只支持同一时间一个写入者。目录预留不能代替库级锁；不要并发首次建库或修订。运行于有权限改动同一目录的对抗进程下，不构成文件系统隔离保证。
+
 ## 从 v0.3.0 升级了什么
 
 新增本地个人 IP 库、确认版本与配色、跨主题复用、窄范围修订、三用途分享交付、文字层、实际预览和失败报告。**四人物母版、17 个尺寸、两种画风、母版确认和质量规则均为已有能力。**
@@ -93,7 +103,7 @@ python3 scripts/ip_library.py build \
 python3 scripts/validate_skill.py .
 python3 -m unittest discover -s tests -v
 python3 scripts/release_audit.py --history
-python3 scripts/package_skill.py --out ../soya-portrait-illustrator-0.4.0.zip
+python3 scripts/package_skill.py --out ../soya-portrait-illustrator-0.4.1.zip
 ```
 
 ZIP 为单层 Skill 文件夹，带许可证和运行脚本；文件白名单防止误带私人库、原始照片、密钥、环境或 `.git`。重复构建相同源码的 ZIP 哈希相同。历史扫描是启发式检查，不能代替人工审阅和授权核实。附带 [GitHub Actions 模板](references/github-actions.yml)。当前 GitHub 登录缺少 `workflow` 权限，因此未自动启用 CI；有该权限后，可将模板复制为 `.github/workflows/validate.yml`。本地验证和打包已可运行。

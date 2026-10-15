@@ -1,12 +1,14 @@
 # Soya Portrait Illustrator · Personal IP Library
 
-Version 0.4.0 · [中文](README.md) · [MIT](LICENSE)
+Version 0.4.1 · [中文](README.md) · [MIT](LICENSE)
 
 Upload an authorized photo and say: **“Build my personal IP illustration library from this photo.”** The Skill checks the host's capabilities, asks only for missing purpose/topic/point information, obtains master approval, and delivers an avatar, editable-text sharing cover and transparent PPT illustration. Save the confirmed identity and palette, then reuse them for later topics.
 
 ## Requirements and installation
 
-Install the complete `soya-portrait-illustrator/` folder into your host's Skills directory, with `SKILL.md` directly inside it; Codex commonly uses `~/.codex/skills/`. Reload Skills. Explicit invocation: `Use $soya-portrait-illustrator to build my personal IP illustration library from this photo.` No extra long prompt is required.
+Install the complete `soya-portrait-illustrator/` folder, with `SKILL.md` directly inside it. The [current official Codex documentation](https://learn.chatgpt.com/docs/build-skills) specifies `~/.agents/skills/soya-portrait-illustrator/` for user-level discovery; use `.agents/skills/soya-portrait-illustrator/` inside a repository for project scope. This maintenance environment still loads existing `~/.codex/skills/` skills; treat that as a legacy/custom-host compatibility location and verify discovery in the target host. Avoid duplicate copies with the same name. Reload Skills. Explicit invocation: `Use $soya-portrait-illustrator to build my personal IP illustration library from this photo.` No extra long prompt is required.
+
+Validation covers source tests, ZIP extraction and offline helpers. No user-global installation, target-host skill discovery/invocation or real-photo generation was tested.
 
 The host must inspect uploaded images, perform reference-image editing and save accessible output files. True transparent cutouts require alpha-capable output. This Skill includes no model, credits, API keys or background removal service. Newly paid calls and photo uploads require an agreed provider, data scope and cost. Short startup does not imply zero configuration in every environment.
 
@@ -38,13 +40,19 @@ Text-only changes reuse the same masters. Palette and master edits create child 
 
 New in 0.4.0: persistent identity/palette versions, reuse, narrow revisions, sharing kit, editable text, preview and failure handling. The four masters, 17 exports, two styles and approval rules already existed in 0.3.0; the legacy exporter remains available.
 
+## v0.4.1 boundary fixes
+
+The legacy 17-size exporter rejects source-repository destinations, including path aliases and links. PNG, contact sheet and manifest targets share the same preflight; overwrite mode cannot follow existing output symlinks. Both ZIP and checksum sidecar refuse existing files and symlinks and use exclusive creation.
+
+Use one writer per identity library. Directory reservations are not a library-wide lock; concurrent first initialization and revision are unsupported. These path checks are not filesystem isolation against a hostile process with access to the same directories.
+
 ## Verification and packaging
 
 ```bash
 python3 scripts/validate_skill.py .
 python3 -m unittest discover -s tests -v
 python3 scripts/release_audit.py --history
-python3 scripts/package_skill.py --out ../soya-portrait-illustrator-0.4.0.zip
+python3 scripts/package_skill.py --out ../soya-portrait-illustrator-0.4.1.zip
 ```
 
 Packaging uses an explicit source allowlist and deterministic ZIP metadata. It never includes local photos, identity libraries, environments or `.git`. The release scan is heuristic and requires manual diff and provenance review. An [optional GitHub Actions template](references/github-actions.yml) validates and builds the ZIP. It is not enabled: the current GitHub OAuth login lacks `workflow` scope. An authorized maintainer may later copy it to `.github/workflows/validate.yml`. Local validation and packaging work without that scope.

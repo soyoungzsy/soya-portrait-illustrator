@@ -10,6 +10,64 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class PackageTests(unittest.TestCase):
+    def invoke(self, path):
+        return subprocess.run([sys.executable, str(ROOT / "scripts/package_skill.py"), "--out", str(path)], capture_output=True, text=True)
+
+    def test_existing_checksum_is_unchanged_and_no_zip_created(self):
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / "skill.zip"
+            checksum = output.with_suffix(".zip.sha256")
+            checksum.write_bytes(b"existing checksum data")
+            result = self.invoke(output)
+            self.assertEqual(result.returncode, 2, result.stderr)
+            self.assertFalse(output.exists())
+            self.assertEqual(checksum.read_bytes(), b"existing checksum data")
+
+    def test_checksum_symlinks_never_modify_or_create_targets(self):
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp)
+            for dangling in (False, True):
+                with self.subTest(dangling=dangling):
+                    output = folder / f"skill-{dangling}.zip"
+                    target = folder / f"target-{dangling}"
+                    if not dangling:
+                        target.write_bytes(b"protected target")
+                    checksum = output.with_suffix(".zip.sha256")
+                    checksum.symlink_to(target)
+                    result = self.invoke(output)
+                    self.assertEqual(result.returncode, 2, result.stderr)
+                    self.assertFalse(output.exists())
+                    self.assertTrue(checksum.is_symlink())
+                    if dangling:
+                        self.assertFalse(target.exists())
+                    else:
+                        self.assertEqual(target.read_bytes(), b"protected target")
+
+    def test_zip_existing_file_and_symlinks_remain_unchanged(self):
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp)
+            for kind in ("file", "symlink", "dangling"):
+                with self.subTest(kind=kind):
+                    output = folder / f"{kind}.zip"
+                    target = folder / f"{kind}-target"
+                    if kind == "file":
+                        output.write_bytes(b"existing archive")
+                    else:
+                        if kind == "symlink":
+                            target.write_bytes(b"existing target")
+                        output.symlink_to(target)
+                    result = self.invoke(output)
+                    self.assertEqual(result.returncode, 2, result.stderr)
+                    self.assertFalse(output.with_suffix(".zip.sha256").exists())
+                    if kind == "file":
+                        self.assertEqual(output.read_bytes(), b"existing archive")
+                    else:
+                        self.assertTrue(output.is_symlink())
+                        if kind == "symlink":
+                            self.assertEqual(target.read_bytes(), b"existing target")
+                        else:
+                            self.assertFalse(target.exists())
+
     def test_reproducible_archive_and_installed_offline_workflow(self):
         with tempfile.TemporaryDirectory() as temp:
             folder = Path(temp)

@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import re
 import sys
 from datetime import datetime, timezone
@@ -26,6 +27,41 @@ VALID_OPERATIONS = {
     "compose_right",
 }
 SAFE_SEGMENT = re.compile(r"^[a-z0-9][a-z0-9-]*$")
+SOURCE_ROOT = Path(__file__).resolve().parents[1]
+
+
+def export_directory(path: Path) -> Path:
+    """Reject both lexical source paths and aliases resolving into the source."""
+    absolute = Path(os.path.abspath(path))
+    resolved = path.resolve()
+    # Resolve ancestors too: an in-source link may point outside, and system
+    # aliases such as /var -> /private/var make lexical prefix checks insufficient.
+    for candidate in (absolute, *absolute.parents, resolved, *resolved.parents):
+        if candidate.resolve() == SOURCE_ROOT:
+            raise ValueError("export directory must be outside the Skill source repository")
+    if path.is_symlink():
+        raise ValueError("export directory must not be a symlink")
+    if resolved.exists() and not resolved.is_dir():
+        raise ValueError("export directory is not a directory")
+    return resolved
+
+
+def export_target(output: Path, relative: Path) -> Path:
+    """Check every component under the selected output before writing any asset."""
+    target = output / relative
+    resolved = target.resolve()
+    try:
+        resolved.relative_to(output)
+    except ValueError as exc:
+        raise ValueError(f"export target escapes output directory: {relative}") from exc
+    if resolved == SOURCE_ROOT or SOURCE_ROOT in resolved.parents:
+        raise ValueError("export target resolves into the Skill source repository")
+    candidate = output
+    for part in relative.parts:
+        candidate = candidate / part
+        if candidate.is_symlink():
+            raise ValueError(f"export target must not use a symlink: {relative}")
+    return target
 
 
 def parse_args() -> argparse.Namespace:
@@ -290,13 +326,17 @@ def main() -> int:
         print("error: --alpha-threshold must be between 0 and 255", file=sys.stderr)
         return 2
 
-    output = args.out.resolve()
-    if output.exists() and any(output.iterdir()) and not args.overwrite:
-        print(f"error: output directory is not empty: {output}; use --overwrite to proceed", file=sys.stderr)
-        return 2
-    output.mkdir(parents=True, exist_ok=True)
-
     try:
+        output = export_directory(args.out)
+        if output.exists() and any(output.iterdir()) and not args.overwrite:
+            raise ValueError(f"output directory is not empty: {output}; use --overwrite to proceed")
+        preset_data = load_presets(args.presets)
+        # Include metadata outputs: an existing sidecar symlink must not bypass
+        # the image-target checks. Preflight all paths before creating anything.
+        relative_outputs = [Path(p["category"]) / f"{p['id']}.png" for p in preset_data["presets"]]
+        relative_outputs += [Path("contact-sheet.jpg"), Path("pack-manifest.json")]
+        for relative in relative_outputs:
+            export_target(output, relative)
         sources = {
             "square": load_rgba(args.square),
             "vertical": load_rgba(args.vertical),
@@ -305,9 +345,9 @@ def main() -> int:
         }
         validate_cutout(sources["cutout"])
         sources["cutout"] = normalize_cutout_alpha(sources["cutout"], args.alpha_threshold)
-        preset_data = load_presets(args.presets)
         background = rgba_color(args.background)
         accent = rgba_color(args.accent)
+        output.mkdir(parents=True, exist_ok=True)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
@@ -321,11 +361,7 @@ def main() -> int:
         category_dir = output / preset["category"]
         category_dir.mkdir(parents=True, exist_ok=True)
         relative = Path(preset["category"]) / f"{preset['id']}.png"
-        target = (output / relative).resolve()
-        try:
-            target.relative_to(output)
-        except ValueError as exc:
-            raise ValueError(f"preset output escapes the selected output directory: {relative}") from exc
+        target = export_target(output, relative)
         rendered.save(target, optimize=True)
         contact_items.append((preset["id"], rendered.copy()))
         manifest_outputs.append(
@@ -340,7 +376,7 @@ def main() -> int:
             }
         )
 
-    make_contact_sheet(contact_items, output / "contact-sheet.jpg")
+    make_contact_sheet(contact_items, export_target(output, Path("contact-sheet.jpg")))
     manifest = {
         "schema_version": "1.0",
         "project_version": preset_data.get("project_version", "unknown"),
@@ -349,7 +385,7 @@ def main() -> int:
         "sources": ["square", "vertical", "wide", "cutout"],
         "outputs": manifest_outputs,
     }
-    (output / "pack-manifest.json").write_text(
+    export_target(output, Path("pack-manifest.json")).write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )

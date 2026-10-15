@@ -1,4 +1,5 @@
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -31,6 +32,69 @@ def create_cutout_with_low_alpha_halo(path: Path) -> None:
 
 
 class ExportAssetPackTests(unittest.TestCase):
+    def isolated_exporter(self, temp):
+        source = temp / "skill-source"
+        (source / "scripts").mkdir(parents=True)
+        (source / "assets").mkdir()
+        script = source / "scripts/export_asset_pack.py"
+        shutil.copyfile(EXPORTER, script)
+        presets = {"presets": [{"id": "probe", "category": "avatars", "width": 64, "height": 64,
+                                "source": "square", "operation": "cover"}]}
+        (source / "assets/presets.json").write_text(json.dumps(presets))
+        square, cutout = temp / "square.png", temp / "cutout.png"
+        create_scene(square, (64, 64))
+        create_cutout_with_low_alpha_halo(cutout)
+        command = [sys.executable, str(script), "--square", str(square), "--vertical", str(square),
+                   "--wide", str(square), "--cutout", str(cutout), "--overwrite", "--out"]
+        return source, command
+
+    def test_source_repository_outputs_rejected_before_writing(self):
+        with tempfile.TemporaryDirectory() as temp_value:
+            temp = Path(temp_value)
+            source, command = self.isolated_exporter(temp)
+            before = {p.relative_to(source): p.read_bytes() for p in source.rglob("*") if p.is_file()}
+            for output in (source, source / "generated", source / "scripts/../assets/exports"):
+                with self.subTest(output=output):
+                    result = subprocess.run([*command, str(output)], capture_output=True, text=True)
+                    self.assertEqual(result.returncode, 2, result.stderr)
+                    self.assertIn("outside", result.stderr)
+            after = {p.relative_to(source): p.read_bytes() for p in source.rglob("*") if p.is_file()}
+            self.assertEqual(before, after)
+
+    def test_source_aliases_and_lexical_source_paths_rejected(self):
+        with tempfile.TemporaryDirectory() as temp_value:
+            temp = Path(temp_value)
+            source, command = self.isolated_exporter(temp)
+            alias = temp / "source-alias"
+            alias.symlink_to(source, target_is_directory=True)
+            external = temp / "external"
+            external.mkdir()
+            (source / "external-alias").symlink_to(external, target_is_directory=True)
+            for output in (alias, alias / "generated", source / "external-alias/generated"):
+                with self.subTest(output=output):
+                    result = subprocess.run([*command, str(output)], capture_output=True, text=True)
+                    self.assertEqual(result.returncode, 2, result.stderr)
+            self.assertFalse((source / "generated").exists())
+            self.assertFalse((external / "generated").exists())
+
+    def test_all_outputs_reject_existing_symlinks_before_export(self):
+        with tempfile.TemporaryDirectory() as temp_value:
+            temp = Path(temp_value)
+            source, command = self.isolated_exporter(temp)
+            victim = source / "protected.txt"
+            victim.write_bytes(b"preserve existing data")
+            for index, name in enumerate(("avatars", "avatars/probe.png", "contact-sheet.jpg", "pack-manifest.json")):
+                with self.subTest(output=name):
+                    output = temp / f"output-{index}"
+                    link = output / name
+                    link.parent.mkdir(parents=True)
+                    link.symlink_to(source if name == "avatars" else victim, target_is_directory=name == "avatars")
+                    result = subprocess.run([*command, str(output)], capture_output=True, text=True)
+                    self.assertEqual(result.returncode, 2, result.stderr)
+                    self.assertEqual(victim.read_bytes(), b"preserve existing data")
+                    self.assertTrue(link.is_symlink())
+                    self.assertEqual([p for p in output.rglob("*") if p.is_file() and not p.is_symlink()], [])
+
     def test_default_pack_dimensions_transparency_and_manifest(self) -> None:
         with tempfile.TemporaryDirectory() as temp_value:
             temp = Path(temp_value)

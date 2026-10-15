@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.1 — 2026-10-15
+
+- Correct user-level installation to the currently documented `~/.agents/skills`, retain a qualified legacy `.codex/skills` compatibility note, and state the actual host-validation limits.
+- Reject legacy exporter outputs inside the Skill source repository, including resolved aliases and in-source links to external directories.
+- Preflight PNG, contact sheet and manifest targets consistently; refuse existing output symlinks even in overwrite mode.
+- Create ZIP and checksum sidecar exclusively; reject existing files, regular/dangling links, and preserve prior content on failure.
+- Add boundary regression tests and document the identity library's single-writer restriction.
+- Remain an author-acceptance prerelease; no new generation, likeness, font or installed-host acceptance claims.
+
 ## 0.4.0 — 2026-10-15
 
 - Add immutable confirmed identity versions, saved palettes, parent lineage and master integrity checks.

@@ -1,5 +1,12 @@
 # Validation notes
 
+## v0.4.1 · boundary patch
+
+The current official installation reference is [Build skills](https://learn.chatgpt.com/docs/build-skills), checked 2026-10-15: user scope is `~/.agents/skills`; project scope uses `.agents/skills`. The maintenance environment's existing `.codex/skills` catalog is compatibility evidence only. No user-global installation or target-host discovery/invocation was tested.
+
+19 unittest cases passed on macOS / Python 3.9.6 / Pillow 11.3.0. Regression coverage adds source-directory/normalized-path/symlink aliases, all legacy export targets including contact sheet and manifest under overwrite, and preservation of existing ZIP/checksum files and regular/dangling link targets. The installable ZIP still runs the synthetic offline workflow after extraction. No real-person generation or full browser/font visual acceptance is claimed. Library recording is explicitly single-writer; concurrent initialization remains unsupported.
+
+
 ## v0.4.0 · local automated validation · 2026-10-15/16 UTC
 
 Environment: macOS, Python 3.9.6, Pillow 11.3.0. To reproduce with the tested dependency, install `Pillow==11.3.0`; the existing requirements range remains Pillow 10–11.
