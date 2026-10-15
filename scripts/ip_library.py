@@ -19,7 +19,7 @@ from PIL import Image, ImageDraw
 
 from export_asset_pack import contain, load_rgba, normalize_cutout_alpha
 
-VERSION = "0.4.0"
+VERSION = "0.4.1"
 ROOT = Path(__file__).resolve().parents[1]
 SEGMENT = re.compile(r"[a-z0-9][a-z0-9-]{0,63}\Z")
 REVISION = re.compile(r"v[0-9]{4}\Z")

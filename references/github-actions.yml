@@ -19,10 +19,10 @@ jobs:
       - run: python scripts/validate_skill.py .
       - run: python -m unittest discover -s tests -v
       - run: python scripts/release_audit.py --history
-      - run: python scripts/package_skill.py --out ../soya-portrait-illustrator-0.4.0.zip
+      - run: python scripts/package_skill.py --out ../soya-portrait-illustrator-0.4.1.zip
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: soya-portrait-illustrator-0.4.0
+          name: soya-portrait-illustrator-0.4.1
           path: |
-            ../soya-portrait-illustrator-0.4.0.zip
-            ../soya-portrait-illustrator-0.4.0.zip.sha256
+            ../soya-portrait-illustrator-0.4.1.zip
+            ../soya-portrait-illustrator-0.4.1.zip.sha256

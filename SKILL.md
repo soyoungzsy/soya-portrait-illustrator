@@ -26,6 +26,8 @@ Local Python helpers manage masters, versions, layout and checks. They do not ge
 7. Open `preview.html`: avatar at small circular sizes, cover with safe-area guide, cutout on light/dark/checkerboard backgrounds. Inspect title spelling, font rendering, portrait crop, stray generated lettering and alpha edges. Mechanical checks cannot assess likeness, read image lettering or certify background removal. Explain failed checks and correct their source before delivery.
 8. Deliver `avatar.png`, editable `cover.svg` plus text-free `cover-background.png`, and `ppt-cutout.png`, alongside the preview and `kit-manifest.json`. The SVG contains editable text elements; it is not a PowerPoint text box. No PPTX is created. Export a raster cover only with an available renderer and report the format actually produced.
 
+Use one writer per identity library; do not run `record` concurrently. Version-directory reservation is not a library-wide initialization lock.
+
 ## Reuse and local changes
 
 - Ask which library/version only when it cannot be inferred. Reuse the explicit confirmed version for a new title/point; `build` does no generation and never modifies the library.

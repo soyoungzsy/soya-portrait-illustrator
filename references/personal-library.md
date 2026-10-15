@@ -33,6 +33,8 @@ my-ip-library/
 
 `identity.json` contains `schema_version`, `project_version`, `identity_id`, `version`, `parent_version`, `confirmed`, `created_at`, `style`, `provenance`, `palette` (`background`, `accent`, `text`), `masters` and `changed`. Each master has a relative file name, SHA-256 and pixel size. Master paths are fixed by role and never trusted from JSON. Builds check the schema, confirmation and hashes before writing. This manifest is not cryptographically signed; a person who edits both image and manifest can defeat integrity checks.
 
+Only one writer may record into a library at a time. There is no library-wide lock: version-directory reservation only avoids allocating the same directory and does not make concurrent first initialization safe. Do not launch concurrent `record` calls.
+
 Versions are immutable through the CLI. There is no mutable “latest” pointer: explicitly pass a version. Save a new version for every confirmed revision; old deliveries remain reproducible in the same Pillow environment. Cross-version Pillow encoding may differ. Libraries contain personal likenesses and are private local data even when EXIF is removed. No cloud sync, encryption or backup is included; use the user's approved local backup practice.
 
 ## Next theme and narrow corrections

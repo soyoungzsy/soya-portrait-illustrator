@@ -1,4 +1,4 @@
-# Entry preparation · v0.4.0
+# Entry preparation · v0.4.1
 
 ## Reviewable positioning
 
@@ -25,4 +25,4 @@ SOYA is the first real user. Reserve this section for her approved account of us
 3. A continuous recording: installation/enabling → host capabilities → photo upload → “按这张照片建立我的个人IP素材库” → necessary follow-up → master confirmation → actual delivery and preview → new-theme reuse. The current synthetic preview is not a substitute for this recording.
 4. Author-approved self-use narrative and exact public permissions for source photo, generated likeness and feedback. Raw photo publication is optional; do not infer it from permission to process the photo.
 
-No contest registration, submission, paid model test, photo upload or real-person acceptance is performed by packaging this release.
+No contest registration, submission, paid model test, photo upload, installed-host invocation or real-person acceptance is performed by packaging this release. v0.4.1 remains an author-acceptance prerelease; v0.4.0 is retained only as release history.
