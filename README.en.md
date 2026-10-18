@@ -22,7 +22,7 @@ The installation and developer sections below are optional for this first try. F
 
 
 
-Version 0.4.1 · [中文](README.md) · [MIT](LICENSE)
+Version 0.4.2 · [中文](README.md) · [MIT](LICENSE)
 
 Upload an authorized photo and say: **“Build my personal IP illustration library from this photo.”** The Skill checks the host's capabilities, asks only for missing purpose/topic/point information, obtains master approval, and delivers an avatar, editable-text sharing cover and transparent PPT illustration. Save the confirmed identity and palette, then reuse them for later topics.
 
@@ -62,7 +62,7 @@ Text-only changes reuse the same masters. Palette and master edits create child 
 
 New in 0.4.0: persistent identity/palette versions, reuse, narrow revisions, sharing kit, editable text, preview and failure handling. The four masters, 17 exports, two styles and approval rules already existed in 0.3.0; the legacy exporter remains available.
 
-## v0.4.1 boundary fixes
+## v0.4.2 boundary fixes
 
 The legacy 17-size exporter rejects source-repository destinations, including path aliases and links. PNG, contact sheet and manifest targets share the same preflight; overwrite mode cannot follow existing output symlinks. Both ZIP and checksum sidecar refuse existing files and symlinks and use exclusive creation.
 
@@ -74,7 +74,7 @@ Use one writer per identity library. Directory reservations are not a library-wi
 python3 scripts/validate_skill.py .
 python3 -m unittest discover -s tests -v
 python3 scripts/release_audit.py --history
-python3 scripts/package_skill.py --out ../soya-portrait-illustrator-0.4.1.zip
+python3 scripts/package_skill.py --out ../soya-portrait-illustrator-0.4.2.zip
 ```
 
 Packaging uses an explicit source allowlist and deterministic ZIP metadata. It never includes local photos, identity libraries, environments or `.git`. The release scan is heuristic and requires manual diff and provenance review. An [optional GitHub Actions template](references/github-actions.yml) validates and builds the ZIP. It is not enabled: the current GitHub OAuth login lacks `workflow` scope. An authorized maintainer may later copy it to `.github/workflows/validate.yml`. Local validation and packaging work without that scope.
@@ -86,3 +86,9 @@ Only third-party Python dependency: official [Pillow](https://github.com/python-
 
 
 [Maintenance and recovery](MAINTENANCE.md) · Public release acceptance remains pending.
+
+## Sources and acknowledgements
+
+See [sources](SOURCES.md) for original authors, references, dependencies and licenses. AI rewriting does not establish original authorship; required third-party notices remain in applicable downloads.
+
+Version: 0.4.2 · [Release / 固定下载](https://github.com/soyoungzsy/soya-portrait-illustrator/releases/tag/v0.4.2)

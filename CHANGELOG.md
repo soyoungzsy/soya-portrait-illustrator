@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.2 — 2026-10-18
+
+- 打包包含来源、维护和自检说明，新增完整来源入口并保留Pillow与预设来源。
+- Publish a fixed version with plain-language onboarding, reviewed source attribution and maintenance evidence.
+
 ## 0.4.1 — 2026-10-15
 
 - Correct user-level installation to the currently documented `~/.agents/skills`, retain a qualified legacy `.codex/skills` compatibility note, and state the actual host-validation limits.
