@@ -22,7 +22,7 @@ AI 聊天工具可能收费，发给它的内容按该服务的规则处理；�
 
 
 
-[![Version](https://img.shields.io/badge/version-0.4.1-E76F51)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.4.2-E76F51)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-264653)](LICENSE)
 
 **一个 Skill，一句启动指令。** 上传一张有权使用的普通照片，说：
@@ -107,7 +107,7 @@ python3 scripts/ip_library.py build \
 
 文字改动只改 brief；配色改动建立子版本；人物修改只替换已重新确认的相应母版，未改动的母版按字节保留。生成模型的区域编辑仍可能改变其他细节，需要人工检查。命令、manifest 协议和失败处理见 [本地素材库说明](references/personal-library.md)。
 
-## v0.4.1 边界补丁
+## v0.4.2 边界补丁
 
 旧版 17 尺寸导出器现在拒绝向 Skill 源码仓库及内部路径输出；解析别名和符号链接，并在写入前统一检查 PNG、联系表与 manifest。即使使用 `--overwrite`，已有输出链接也会被拒绝。安装包和同名 `.sha256` 都拒绝覆盖或跟随链接，并以独占方式创建。
 
@@ -125,7 +125,7 @@ python3 scripts/ip_library.py build \
 python3 scripts/validate_skill.py .
 python3 -m unittest discover -s tests -v
 python3 scripts/release_audit.py --history
-python3 scripts/package_skill.py --out ../soya-portrait-illustrator-0.4.1.zip
+python3 scripts/package_skill.py --out ../soya-portrait-illustrator-0.4.2.zip
 ```
 
 ZIP 为单层 Skill 文件夹，带许可证和运行脚本；文件白名单防止误带私人库、原始照片、密钥、环境或 `.git`。重复构建相同源码的 ZIP 哈希相同。历史扫描是启发式检查，不能代替人工审阅和授权核实。附带 [GitHub Actions 模板](references/github-actions.yml)。当前 GitHub 登录缺少 `workflow` 权限，因此未自动启用 CI；有该权限后，可将模板复制为 `.github/workflows/validate.yml`。本地验证和打包已可运行。
@@ -145,3 +145,9 @@ SOYA 是第一个真实用户。已预留[作者自用案例与材料缺口](ref
 
 
 [维护与恢复](MAINTENANCE.md) · 本轮规范检查尚未完成公开发布验收。
+
+## 来源与致谢
+
+原作者、参考项目、依赖和许可说明见[来源清单](SOURCES.md)。引用不会因AI改写或改名而变成原创；需要保留的第三方声明随下载包提供。
+
+本轮版本: 0.4.2 · [Release / 固定下载](https://github.com/soyoungzsy/soya-portrait-illustrator/releases/tag/v0.4.2)

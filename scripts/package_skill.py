@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 NAME = "soya-portrait-illustrator"
-TOP = ("SKILL.md", "README.md", "README.en.md", "LICENSE", "PRIVACY.md", "SECURITY.md", "CONTRIBUTING.md", "CHANGELOG.md", "requirements.txt")
+TOP = ("SOURCES.md", "MAINTENANCE.md", "OPEN_SOURCE_REVIEW.md", "VERSION", "SKILL.md", "README.md", "README.en.md", "LICENSE", "PRIVACY.md", "SECURITY.md", "CONTRIBUTING.md", "CHANGELOG.md", "requirements.txt")
 # Additions to the public package require intentional review here.
 FILES = TOP + (
     "references/github-actions.yml",
