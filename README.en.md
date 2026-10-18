@@ -1,5 +1,27 @@
 # Soya Portrait Illustrator · Personal IP Library
 
+**Create matching profile pictures, sharing covers and presentation illustrations, and keep approved versions for later use.**
+
+## Start without coding
+
+A **Skill** is a package of instructions that helps an AI follow repeatable steps. A **prompt** is a message you can copy into an AI chat. Try the message below before installing anything.
+
+1. Open the AI chat you normally use and start a new conversation.
+2. Copy the complete message below and replace the bracketed example with information you are allowed to share.
+3. Compare the reply with the expected result. Missing information should lead to questions, not invented facts.
+
+```text
+Help me plan matching profile pictures, sharing covers and presentation illustrations. Ask about purpose, theme, style and budget first. Give me a materials checklist. Process photos only after I approve sharing them with the chosen image service. If you cannot generate images, say so and help me prepare the brief.
+```
+
+**Expected result:** Expect a brief and materials checklist first. Creating images requires an AI with suitable image tools and may cost money; this message does not install the full illustration library.
+
+Your AI service may charge fees and handles the text under its own policies. Do not paste work secrets, private contact details or passwords. If a reply is incomplete, name the missing part and add non-sensitive context. You can stop at any time.
+
+The installation and developer sections below are optional for this first try. For questions, use the repository’s **Issues** tab, the public question area, and remove private/work information before posting.
+
+
+
 Version 0.4.1 · [中文](README.md) · [MIT](LICENSE)
 
 Upload an authorized photo and say: **“Build my personal IP illustration library from this photo.”** The Skill checks the host's capabilities, asks only for missing purpose/topic/point information, obtains master approval, and delivers an avatar, editable-text sharing cover and transparent PPT illustration. Save the confirmed identity and palette, then reuse them for later topics.
@@ -60,3 +82,7 @@ Packaging uses an explicit source allowlist and deterministic ZIP metadata. It n
 No new real-person generation or likeness acceptance was performed for this upgrade. No OCR, face recognition, automatic publication, cloud synchronization, encryption or backup is included. One fixed cover layout is supported; text capacity and contrast checks cannot verify actual fonts or identity. See [validation notes](references/validation-notes.md), [privacy](PRIVACY.md) and the [entry preparation checklist](references/competition-checklist.md). The author's own case awaits her approved evidence; no external testimonials or time savings are claimed.
 
 Only third-party Python dependency: official [Pillow](https://github.com/python-pillow/Pillow), distributed under [MIT-CMU](https://github.com/python-pillow/Pillow/blob/11.3.0/LICENSE). No fonts, models or third-party character assets are bundled. The original geometric demo is distributed under the project's MIT license.
+
+
+
+[Maintenance and recovery](MAINTENANCE.md) · Public release acceptance remains pending.
